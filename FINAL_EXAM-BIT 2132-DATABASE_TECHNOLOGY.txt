@@ -312,3 +312,89 @@ e)
 mysql> select * from EMPLOYEES_ where Department_Id in (70,60,80);
 Empty set (0.00 sec)
 
+Question 10:
+
+mysql> CREATE TABLE Sales (
+    ->     Sales_No INT PRIMARY KEY,
+    ->     Salesname VARCHAR(50),
+    ->     Branch VARCHAR(50),
+    ->     Salesamount DECIMAL(10,2),
+    ->     DOB DATE
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+a)
+mysql> INSERT INTO Sales VALUES
+    -> (1, 'John Kinyanrwa', 'Nairobi', 15000.00, '1990-12-21'),
+    -> (2, 'Mary Kinyanrwa', 'Mombasa', 12500.00, '1985-04-15'),
+    -> (3, 'Peter Kinyanrwa', 'Nairobi', 18000.00, '1992-12-05'),
+    -> (4, 'Sarah Kinyanrwa', 'Kisumu', 13500.00, '1988-07-30'),
+    -> (5, 'James Kinyanrwa', 'Mombasa', 16500.00, '1995-12-10');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from Sales;
++----------+-----------------+---------+-------------+------------+
+| Sales_No | Salesname       | Branch  | Salesamount | DOB        |
++----------+-----------------+---------+-------------+------------+
+|        1 | John Kinyanrwa  | Nairobi |    15000.00 | 1990-12-21 |
+|        2 | Mary Kinyanrwa  | Mombasa |    12500.00 | 1985-04-15 |
+|        3 | Peter Kinyanrwa | Nairobi |    18000.00 | 1992-12-05 |
+|        4 | Sarah Kinyanrwa | Kisumu  |    13500.00 | 1988-07-30 |
+|        5 | James Kinyanrwa | Mombasa |    16500.00 | 1995-12-10 |
++----------+-----------------+---------+-------------+------------+
+5 rows in set (0.00 sec)
+
+b)
+mysql> SELECT Branch, SUM(Salesamount) as Total_Sales
+    -> FROM Sales
+    -> GROUP BY Branch;
++---------+-------------+
+| Branch  | Total_Sales |
++---------+-------------+
+| Nairobi |    33000.00 |
+| Mombasa |    29000.00 |
+| Kisumu  |    13500.00 |
++---------+-------------+
+3 rows in set (0.01 sec)
+
+c)
+mysql> SELECT Branch, AVG(Salesamount) as Average_Sales
+    -> FROM Sales
+    -> GROUP BY Branch;
++---------+---------------+
+| Branch  | Average_Sales |
++---------+---------------+
+| Nairobi |  16500.000000 |
+| Mombasa |  14500.000000 |
+| Kisumu  |  13500.000000 |
++---------+---------------+
+3 rows in set (0.00 sec)
+
+d)
+mysql> SELECT Salesname, DATE_FORMAT(DOB, '%d-%b-%y') as DOB
+    -> FROM Sales
+    -> WHERE MONTH(DOB) = 12;
++-----------------+-----------+
+| Salesname       | DOB       |
++-----------------+-----------+
+| John Kinyanrwa  | 21-Dec-90 |
+| Peter Kinyanrwa | 05-Dec-92 |
+| James Kinyanrwa | 10-Dec-95 |
++-----------------+-----------+
+3 rows in set (0.01 sec)
+
+e)
+mysql> SELECT Salesname, DATE_FORMAT(DOB, '%d-%b-%y') as DOB
+    -> FROM Sales
+    -> ORDER BY MONTH(DOB), Salesname;
++-----------------+-----------+
+| Salesname       | DOB       |
++-----------------+-----------+
+| Mary Kinyanrwa  | 15-Apr-85 |
+| Sarah Kinyanrwa | 30-Jul-88 |
+| James Kinyanrwa | 10-Dec-95 |
+| John Kinyanrwa  | 21-Dec-90 |
+| Peter Kinyanrwa | 05-Dec-92 |
++-----------------+-----------+
+5 rows in set (0.00 sec)
